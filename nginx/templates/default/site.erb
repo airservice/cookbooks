@@ -3,20 +3,26 @@ server {
   server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
 
-  location / {
-    root   <%= @application[:absolute_document_root] %>;
-    index  index.html index.htm index.php;
-  }
 
-  # Block all svn access
-  if ($request_uri ~* ^.*\.svn.*$) {
-     return 404;
-  }
+  <% if @application[:ssl_support] && node['custom']['force_ssl'] %>
+    return 301 https://$host$request_uri;
+  <% else %>
+    location / {
+      root   <%= @application[:absolute_document_root] %>;
+      index  index.html index.htm index.php;
+    }
 
-  # Block all git access
-  if ($request_uri ~* ^.*\.git.*$) {
-     return 404;
-  }
+    # Block all svn access
+    if ($request_uri ~* ^.*\.svn.*$) {
+       return 404;
+    }
+
+    # Block all git access
+    if ($request_uri ~* ^.*\.git.*$) {
+       return 404;
+    }
+
+  <% end %>
 
   location /nginx_status {
     stub_status on;
