@@ -4,7 +4,7 @@ server {
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
 
 
-  <% if node['custom']['force_ssl'] %>
+  <% if node['custom'] && node['custom']['force_ssl'] %>
     return 301 https://$host$request_uri;
   <% else %>
     location / {
