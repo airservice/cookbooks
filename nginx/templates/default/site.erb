@@ -24,7 +24,7 @@ server {
     allow 127.0.0.1;
     deny all;
   }
-  
+  rewrite        ^ https://$server_name$request_uri? permanent;
 }
 
 <% if @application[:ssl_support] %>
