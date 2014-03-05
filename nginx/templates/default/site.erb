@@ -9,7 +9,9 @@ server {
   <% else %>
     location / {
       root   <%= @application[:absolute_document_root] %>;
-      index  index.html index.htm index.php;
+      if ( $uri !~ ^/(\.css|\.png|\.jpg|\.js|robots\.txt|\.ico) ) {
+          rewrite ^ /index.html last;
+      }
     }
 
     # Block all svn access
