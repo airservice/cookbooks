@@ -9,7 +9,7 @@ server {
   <% else %>
     location / {
       root   <%= @application[:absolute_document_root] %>;
-      if ( $uri !~ (\.css|\.png|\.jpg|\.js|robots\.txt|\.ico)$ ) {
+      if ( $uri !~ (\.css|\.png|\.jpg|\.js|robots\.txt|\.ico|\.woff|\.ttf|\.svg)$ ) {
         rewrite ^ /index.html break;
       }
     }
@@ -33,7 +33,7 @@ server {
 
   location / {
     root   <%= @application[:absolute_document_root] %>;
-    if ( $uri !~ (\.css|\.png|\.jpg|\.js|robots\.txt|\.ico)$ ) {
+    if ( $uri !~ (\.css|\.png|\.jpg|\.js|robots\.txt|\.ico|\.woff|\.ttf|\.svg)$ ) {
         rewrite ^ /index.html break;
     }
   }
