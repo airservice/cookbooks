@@ -9,8 +9,8 @@ server {
   <% else %>
     location / {
       root   <%= @application[:absolute_document_root] %>;
-      if ( $uri !~ ^/(\.css|\.png|\.jpg|\.js|robots\.txt|\.ico) ) {
-          rewrite ^ /index.html last;
+      if ( $uri !~ (\.css|\.png|\.jpg|\.js|robots\.txt|\.ico)$ ) {
+        rewrite ^ /index.html break;
       }
     }
 
@@ -30,11 +30,11 @@ server {
   listen  443;
   server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
-  
+
   location / {
     root   <%= @application[:absolute_document_root] %>;
-    if ( $uri !~ ^/(\.css|\.png|\.jpg|\.js|robots\.txt|\.ico) ) {
-        rewrite ^ /index.html last;
+    if ( $uri !~ (\.css|\.png|\.jpg|\.js|robots\.txt|\.ico)$ ) {
+        rewrite ^ /index.html break;
     }
   }
 
